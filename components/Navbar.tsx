@@ -14,6 +14,9 @@ export default function Navbar() {
   const [user, setUser] =
     useState<LoggedInUser | null>(null);
 
+  const [loggingOut, setLoggingOut] =
+    useState(false);
+
   useEffect(() => {
     const storedUser =
       localStorage.getItem("loggedInUser");
@@ -30,47 +33,115 @@ export default function Navbar() {
     }
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("userEmail");
-    localStorage.removeItem("loggedInUser");
+  // ==========================================
+  // LOGOUT
+  // ==========================================
 
-    router.push("/login");
+  const handleLogout = async () => {
+    if (loggingOut) {
+      return;
+    }
+
+    try {
+      setLoggingOut(true);
+
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+    } catch (error) {
+      console.error(
+        "Logout request failed:",
+        error
+      );
+    } finally {
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("userEmail");
+      localStorage.removeItem("loggedInUser");
+
+      router.replace("/login");
+    }
   };
 
-  const displayName = user?.name || "User";
+  const displayName =
+    user?.name || "User";
 
   const initial =
-    displayName.charAt(0).toUpperCase();
+    displayName
+      .charAt(0)
+      .toUpperCase();
 
   return (
-    <nav className="flex h-16 items-center justify-between border-b bg-white px-6">
+    <nav className="sticky top-0 z-30 w-full border-b border-slate-200/80 bg-white/95 shadow-sm backdrop-blur">
 
-      {/* Logo */}
-      <h1 className="text-xl font-bold text-gray-900">
-        TaskFlow
-      </h1>
+      <div className="flex h-16 min-w-0 items-center justify-between px-4 sm:px-6">
 
-      {/* User Section */}
-      <div className="flex items-center gap-4">
+        {/* ======================================
+            BRAND
+        ====================================== */}
 
-        <span className="text-sm text-gray-600">
-          Welcome, {displayName}
-        </span>
+        <div className="flex min-w-0 items-center gap-2.5">
 
-        {/* Avatar */}
-        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-sm font-semibold text-white">
-          {initial}
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-base font-bold text-white shadow-sm">
+            ✓
+          </div>
+
+          <div className="min-w-0">
+            <h1 className="truncate bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-lg font-bold text-transparent sm:text-xl">
+              TaskFlow
+            </h1>
+
+            <p className="hidden text-[10px] font-medium uppercase tracking-wider text-slate-400 sm:block">
+              Productivity workspace
+            </p>
+          </div>
+
         </div>
 
-        {/* Logout */}
-        <button
-          type="button"
-          onClick={handleLogout}
-          className="rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-        >
-          Logout
-        </button>
+        {/* ======================================
+            USER SECTION
+        ====================================== */}
+
+        <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+
+          {/* Welcome */}
+
+          <div className="hidden text-right sm:block">
+            <p className="text-[11px] font-medium uppercase tracking-wide text-slate-400">
+              Welcome back
+            </p>
+
+            <p className="max-w-[180px] truncate text-sm font-semibold text-slate-700">
+              {displayName}
+            </p>
+          </div>
+
+          {/* Avatar */}
+
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-sm font-bold text-white shadow-sm ring-2 ring-blue-50">
+            {initial}
+          </div>
+
+          {/* Logout */}
+
+          <button
+            type="button"
+            onClick={handleLogout}
+            disabled={loggingOut}
+            className="group flex shrink-0 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-600 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            <span className="text-base">
+              ↪
+            </span>
+
+            <span className="hidden sm:inline">
+              {loggingOut
+                ? "Logging out..."
+                : "Logout"}
+            </span>
+          </button>
+
+        </div>
 
       </div>
     </nav>

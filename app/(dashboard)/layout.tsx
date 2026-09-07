@@ -14,11 +14,8 @@ export default function DashboardLayout({
 }) {
   const router = useRouter();
 
-  const [checkingAuth, setCheckingAuth] =
-    useState(true);
-
-  const [isLoggedIn, setIsLoggedIn] =
-    useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const loggedIn =
@@ -26,6 +23,7 @@ export default function DashboardLayout({
 
     if (!loggedIn) {
       router.replace("/login");
+      setCheckingAuth(false);
       return;
     }
 
@@ -33,14 +31,13 @@ export default function DashboardLayout({
     setCheckingAuth(false);
   }, [router]);
 
-  // Wait while checking login status
   if (checkingAuth) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-gray-50">
+      <main className="flex min-h-screen items-center justify-center bg-slate-50">
         <div className="text-center">
-          <div className="mx-auto h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-blue-600" />
+          <div className="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-slate-200 border-t-blue-600" />
 
-          <p className="mt-3 text-sm text-gray-500">
+          <p className="mt-4 text-sm font-medium text-slate-500">
             Checking authentication...
           </p>
         </div>
@@ -48,20 +45,21 @@ export default function DashboardLayout({
     );
   }
 
-  // Don't render dashboard if not logged in
   if (!isLoggedIn) {
     return null;
   }
 
   return (
     <TaskProvider>
-      <main className="min-h-screen bg-gray-50">
+      <main className="min-h-screen w-full min-w-0 max-w-full overflow-x-hidden bg-slate-50">
         <Navbar />
 
-        <div className="flex">
-          <Sidebar />
+        <div className="flex w-full min-w-0 max-w-full">
+          <div className="shrink-0">
+            <Sidebar />
+          </div>
 
-          <section className="flex-1">
+          <section className="min-w-0 flex-1">
             {children}
           </section>
         </div>

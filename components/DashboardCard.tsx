@@ -8,8 +8,8 @@ export default function DashboardCard({
   value,
 }: DashboardCardProps) {
   return (
-    <div className="rounded-xl border bg-white p-5 shadow-sm">
-      <p className="text-sm text-gray-500">
+    <div className="w-full min-w-0 max-w-full overflow-hidden rounded-xl border bg-white p-4 shadow-sm sm:p-5">
+      <p className="truncate text-sm text-gray-500">
         {title}
       </p>
 
