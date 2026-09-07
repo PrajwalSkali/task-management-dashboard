@@ -368,91 +368,145 @@ export async function PUT(
           existingAssignedTo);
 
     if (isOrderOnlyRequest) {
-      if (!existingTask.projectId) {
-        return NextResponse.json(
-          {
-            error:
-              "Task is not part of a project",
-          },
-          {
-            status: 400,
-          }
-        );
-      }
-
-      const membership =
-        await ProjectMember.findOne({
-          projectId:
-            existingTask.projectId,
-          userId:
-            authUser.userId,
-        })
-          .select("_id")
-          .lean();
-
-      if (!isTaskOwner && !membership) {
-        return NextResponse.json(
-          {
-            error:
-              "You are not a member of this project",
-          },
-          {
-            status: 403,
-          }
-        );
-      }
-
-      existingTask.order =
-        body.order as number;
-
-      await existingTask.save();
-
+  // Personal task:
+  // Only the task owner can reorder it.
+  if (!existingTask.projectId) {
+    if (!isTaskOwner) {
       return NextResponse.json(
         {
-          id: existingTask._id.toString(),
-
-          title:
-            existingTask.title,
-
-          description:
-            existingTask.description,
-
-          dueDate:
-            existingTask.dueDate,
-
-          category:
-            existingTask.category,
-
-          status:
-            existingTask.status,
-
-          priority:
-            existingTask.priority,
-
-          order:
-            existingTask.order,
-
-          projectId:
-            existingTask.projectId
-              ? existingTask.projectId.toString()
-              : null,
-
-          assignedTo:
-            existingTask.assignedTo
-              ? existingTask.assignedTo.toString()
-              : null,
-
-          createdAt:
-            existingTask.createdAt,
-
-          updatedAt:
-            existingTask.updatedAt,
+          error: "You are not authorized to reorder this task",
         },
         {
-          status: 200,
+          status: 403,
         }
       );
     }
+
+    existingTask.order =
+      body.order as number;
+
+    await existingTask.save();
+
+    return NextResponse.json(
+      {
+        id: existingTask._id.toString(),
+
+        title:
+          existingTask.title,
+
+        description:
+          existingTask.description,
+
+        dueDate:
+          existingTask.dueDate,
+
+        category:
+          existingTask.category,
+
+        status:
+          existingTask.status,
+
+        priority:
+          existingTask.priority,
+
+        order:
+          existingTask.order,
+
+        projectId: null,
+
+        assignedTo:
+          existingTask.assignedTo
+            ? existingTask.assignedTo.toString()
+            : null,
+
+        createdAt:
+          existingTask.createdAt,
+
+        updatedAt:
+          existingTask.updatedAt,
+      },
+      {
+        status: 200,
+      }
+    );
+  }
+
+  // Project task:
+  // Owner or project member can reorder it.
+  const membership =
+    await ProjectMember.findOne({
+      projectId:
+        existingTask.projectId,
+      userId:
+        authUser.userId,
+    })
+      .select("_id")
+      .lean();
+
+  if (!isTaskOwner && !membership) {
+    return NextResponse.json(
+      {
+        error:
+          "You are not a member of this project",
+      },
+      {
+        status: 403,
+      }
+    );
+  }
+
+  existingTask.order =
+    body.order as number;
+
+  await existingTask.save();
+
+  return NextResponse.json(
+    {
+      id:
+        existingTask._id.toString(),
+
+      title:
+        existingTask.title,
+
+      description:
+        existingTask.description,
+
+      dueDate:
+        existingTask.dueDate,
+
+      category:
+        existingTask.category,
+
+      status:
+        existingTask.status,
+
+      priority:
+        existingTask.priority,
+
+      order:
+        existingTask.order,
+
+      projectId:
+        existingTask.projectId
+          ? existingTask.projectId.toString()
+          : null,
+
+      assignedTo:
+        existingTask.assignedTo
+          ? existingTask.assignedTo.toString()
+          : null,
+
+      createdAt:
+        existingTask.createdAt,
+
+      updatedAt:
+        existingTask.updatedAt,
+    },
+    {
+      status: 200,
+    }
+  );
+}
 
     // ==========================================
     // PROJECT MEMBER ORDER UPDATE
