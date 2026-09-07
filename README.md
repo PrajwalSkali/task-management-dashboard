@@ -1,52 +1,82 @@
-# TaskFlow
+# TaskFlow – Task Management Dashboard
 
-A modern and responsive task management application built with Next.js and Tailwind CSS.
+TaskFlow is a modern, responsive task management and team collaboration application built with Next.js, React, TypeScript, Tailwind CSS, MongoDB, and JWT authentication.
 
-TaskFlow allows users to create accounts, manage tasks, organize tasks using categories, set priorities and due dates, update task status, and efficiently search and filter their tasks.
+The application allows users to create and manage tasks, organize work using categories and projects, assign tasks to team members, track deadlines, collaborate through comments, view activity history, and reorder tasks using drag-and-drop.
+
+## 🚀 Live Application
+
+Live Demo:
+https://task-management-dashboard-eight-silk.vercel.app
+
+## 📦 GitHub Repository
+
+https://github.com/PrajwalSkali/task-management-dashboard
 
 ---
 
-## 🚀 Project Overview
+## 📌 Project Overview
 
-TaskFlow is a productivity-focused task management system developed as part of the Phase 1 Foundation Development project.
+TaskFlow was developed as an interactive task management dashboard with a focus on productivity, collaboration, responsive design, authentication, data persistence, and team-based project management.
 
-The application provides users with a simple dashboard where they can manage their daily tasks and organize their work efficiently.
+The application provides:
 
-The current version focuses on authentication, task management, category management, filtering, search functionality, and responsive UI design.
+- Personal task management
+- Project-based task management
+- Team collaboration
+- Task assignment
+- Task priorities and statuses
+- Due-date and overdue tracking
+- Search, filtering, and sorting
+- Drag-and-drop task ordering
+- Comments
+- Activity history
+- Category management
+- User authentication and protected routes
 
 ---
 
 ## ✨ Features
 
-### Authentication
+### 🔐 Authentication
 
-- User Registration
-- User Login
-- Logout functionality
-- Protected dashboard access
-- User-specific task storage
-- Login session handling
+- User registration
+- User login
+- User logout
+- JWT-based authentication
+- HTTP-only authentication cookie
+- Protected dashboard routes
+- User-specific task access
+- Password hashing
+- Authentication and authorization checks
 
-### Task Management
+---
 
-- Create new tasks
-- View all tasks
-- Edit existing tasks
+### ✅ Task Management
+
+- Create tasks
+- View tasks
+- Edit tasks
 - Delete tasks
-- Set task priority
-- Set task due date
-- Add task description
-- Change task status
+- Task descriptions
+- Task categories
+- Task priorities
+- Task statuses
+- Task due dates
+- Personal tasks
+- Project tasks
+- Task assignment
+- Drag-and-drop task ordering
 
-### Task Status
+### Task Statuses
 
-Tasks can have one of the following statuses:
+Tasks support three statuses:
 
 - Pending
 - In Progress
 - Completed
 
-### Task Priority
+### Task Priorities
 
 Tasks support three priority levels:
 
@@ -54,40 +84,177 @@ Tasks support three priority levels:
 - Medium
 - High
 
-### Category Management
+---
 
-- Create new categories
-- View all categories
-- Delete unused categories
-- Display number of tasks in each category
-- Assign tasks to categories
-- Use newly created categories while creating or editing tasks
+## 📅 Due Dates & Overdue Tasks
 
-### Search & Filtering
+TaskFlow provides deadline management through task due dates.
 
-- Search tasks by title
-- Filter tasks by status
-- Filter tasks by category
-- Clear filters
-- Display filtered task count
+The application can:
 
-### Dashboard
+- Display task due dates
+- Identify overdue tasks
+- Track completed and pending tasks
+- Filter tasks based on deadline-related conditions
 
-- Total task count
-- Pending task count
-- Completed task count
+---
+
+## 🔎 Search, Filtering & Sorting
+
+Users can efficiently find and organize tasks using:
+
+- Task title search
+- Status filtering
+- Category filtering
+- Priority filtering
+- Assignee filtering
+- Overdue filtering
+- Sorting and task ordering
+- Clear filters functionality
+
+---
+
+## 🖱️ Drag & Drop Ordering
+
+TaskFlow supports drag-and-drop task reordering.
+
+Users can:
+
+- Reorder personal tasks
+- Reorder project tasks
+- Move tasks using the dedicated drag handle
+- Persist the new task order to the database
+
+Task ordering is handled using a drag-and-drop interaction and persisted through the task API.
+
+---
+
+## 📊 Dashboard
+
+The dashboard provides an overview of the user's work.
+
+It includes:
+
+- Total tasks
+- Pending tasks
+- In-progress tasks
+- Completed tasks
+- Task analytics
 - Task overview
-- Responsive dashboard layout
+- Productivity information
 
-### Data Persistence
+---
 
-TaskFlow currently uses browser LocalStorage for data persistence.
+## 📁 Projects
 
-The following data is stored locally:
+Users can organize tasks into shared projects.
 
-- User login information
+Project functionality includes:
+
+- Create projects
+- View projects
+- Edit projects
+- Delete projects
+- Project descriptions
+- Project task management
+- Project member management
+- Project roles
+- Project activity history
+
+### Project Roles
+
+Projects support:
+
+- Owner
+- Admin
+- Member
+
+---
+
+## 👥 Team Workspace
+
+TaskFlow provides team collaboration features.
+
+Users can:
+
+- View team members
+- Assign tasks to team members
+- View assigned team tasks
+- Manage project members
+- Change member roles
+- Remove project members
+- Work collaboratively on project tasks
+
+---
+
+## 💬 Comments
+
+Project tasks support collaboration through comments.
+
+Users can:
+
+- Add comments
+- View comments
+- Edit their own comments
+- Delete their own comments
+
+Comment actions are also recorded in the activity history.
+
+---
+
+## 📝 Activity History
+
+TaskFlow maintains an activity history for important actions.
+
+Activity tracking includes events such as:
+
+- Task creation
+- Task updates
+- Status changes
+- Priority changes
+- Assignment changes
+- Project changes
+- Comment actions
+- Project activity
+
+The activity interface supports:
+
+- Recent activity display
+- Show All
+- Show Less
+
+---
+
+## 🗂️ Category Management
+
+Users can manage task categories.
+
+Category functionality includes:
+
+- Create categories
+- View categories
+- Delete categories
+- Display task counts
+- Assign categories to tasks
+- Use categories when creating or editing tasks
+
+---
+
+## 💾 Data Persistence
+
+TaskFlow uses MongoDB for persistent application data.
+
+The database stores information including:
+
+- Users
 - Tasks
 - Categories
+- Projects
+- Project members
+- Comments
+- Activity history
+
+MongoDB Atlas is used for the production database.
 
 ---
 
@@ -100,39 +267,77 @@ The following data is stored locally:
 - TypeScript
 - Tailwind CSS
 
+### Backend
+
+- Next.js App Router API routes
+- Node.js
+- Mongoose
+- MongoDB Atlas
+
+### Authentication & Security
+
+- JWT
+- HTTP-only cookies
+- Password hashing
+- Protected API routes
+- Authentication and authorization checks
+- Project membership validation
+
 ### State Management
 
 - React Context API
 - React Hooks
 
-### Storage
+### Drag & Drop
 
-- Browser LocalStorage
+- dnd-kit
 
-### Development Tools
+### Data Visualization
+
+- Recharts
+
+### Development & Deployment
 
 - Visual Studio Code
 - Git
 - GitHub
 - npm
+- Vercel
+- MongoDB Atlas
 
 ---
 
 ## 📁 Project Structure
 
 ```text
-TaskFlow/
+task-management-dashboard/
 │
 ├── app/
 │   ├── (dashboard)/
-│   │   └── page.tsx
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   ├── tasks/
+│   │   ├── projects/
+│   │   ├── team/
+│   │   ├── categories/
+│   │   └── settings/
+│   │
+│   ├── api/
+│   │   ├── activities/
+│   │   ├── auth/
+│   │   │   ├── login/
+│   │   │   ├── logout/
+│   │   │   └── register/
+│   │   ├── categories/
+│   │   ├── comments/
+│   │   ├── projects/
+│   │   ├── settings/
+│   │   ├── tasks/
+│   │   ├── team/
+│   │   └── users/
 │   │
 │   ├── login/
-│   │   └── page.tsx
-│   │
 │   ├── register/
-│   │   └── page.tsx
-│   │
 │   └── ...
 │
 ├── components/
@@ -140,14 +345,27 @@ TaskFlow/
 │   ├── Sidebar.tsx
 │   ├── TaskCard.tsx
 │   ├── AddTaskModal.tsx
+│   ├── TaskComments.tsx
+│   ├── ActivityHistory.tsx
 │   └── ...
 │
 ├── context/
 │   └── TaskContext.tsx
+│
+├── lib/
+│   ├── auth.ts
+│   ├── task.ts
+│   ├── user.ts
+│   ├── project.ts
+│   ├── projectMember.ts
+│   ├── comment.ts
+│   ├── activity.ts
+│   └── ...
 │
 ├── public/
 │
 ├── package.json
 ├── tsconfig.json
 ├── next.config.ts
+├── .gitignore
 └── README.md
